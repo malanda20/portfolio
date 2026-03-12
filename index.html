@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juste Hadassa MALANDA NYEKELE — Data Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080C14;
+    --surface: #0F1624;
+    --surface2: #161E30;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00D4FF;
+    --accent2: #7B61FF;
+    --green: #00E5A0;
+    --gold: #FFB830;
+    --text: #E8EDF5;
+    --muted: #6B7A99;
+    --card-hover: rgba(0,212,255,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ──────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* ── GRID BG ────────────────────────────────────── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.05rem;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── SECTIONS ────────────────────────────────────── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 100px;
+    font-size: 0.75rem; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 2rem;
+    background: rgba(0,212,255,0.05);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-name .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem; font-weight: 300;
+    color: var(--muted); max-width: 520px;
+    line-height: 1.7; margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 1.8rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.35); }
+
+  .btn-secondary {
+    padding: 0.75rem 1.8rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ── STATS ROW ───────────────────────────────────── */
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--accent);
+    display: block; line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ── SECTION HEADER ─────────────────────────────── */
+  .section-header {
+    text-align: center; margin-bottom: 3.5rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800; letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .section-title span { color: var(--accent); }
+
+  /* ── PROJECTS ────────────────────────────────────── */
+  #projets {
+    padding: 6rem 3rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--card-hover);
+    opacity: 0; transition: opacity 0.3s;
+    border-radius: 16px;
+  }
+
+  .project-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card.featured {
+    grid-column: span 2;
+    border-color: rgba(0,212,255,0.2);
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(0,212,255,0.03) 100%);
+  }
+
+  .card-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .card-badges {
+    display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end;
+  }
+
+  .badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-new { background: rgba(0,229,160,0.15); color: var(--green); border: 1px solid rgba(0,229,160,0.3); }
+  .badge-sql { background: rgba(123,97,255,0.15); color: #A78BFF; border: 1px solid rgba(123,97,255,0.3); }
+  .badge-pbi { background: rgba(255,184,48,0.15); color: var(--gold); border: 1px solid rgba(255,184,48,0.3); }
+  .badge-py  { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-ml  { background: rgba(255,80,120,0.12); color: #FF7090; border: 1px solid rgba(255,80,120,0.25); }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--text); margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 0.84rem; color: var(--muted);
+    line-height: 1.65; margin-bottom: 1.2rem;
+  }
+
+  .card-kpis {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+
+  .kpi {
+    display: flex; flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .kpi-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem; font-weight: 500;
+    color: var(--accent);
+  }
+
+  .kpi-label { font-size: 0.68rem; color: var(--muted); }
+
+  .card-links {
+    display: flex; gap: 0.75rem; flex-wrap: wrap;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--muted); text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .card-link:hover { color: var(--accent); border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.05); }
+  .card-link svg { width: 13px; height: 13px; }
+
+  /* ── SQL SECTION ─────────────────────────────────── */
+  #sql {
+    padding: 6rem 3rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .sql-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .sql-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .sql-card:hover { border-color: rgba(123,97,255,0.3); transform: translateY(-3px); }
+
+  .sql-card-header {
+    padding: 1.2rem 1.5rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+
+  .sql-dots { display: flex; gap: 6px; }
+  .sql-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F56; }
+  .dot-y { background: #FFBD2E; }
+  .dot-g { background: #27C93F; }
+
+  .sql-filename {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem; color: var(--muted);
+  }
+
+  .sql-body {
+    padding: 1.5rem;
+  }
+
+  .sql-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    color: var(--text); margin-bottom: 0.5rem;
+  }
+
+  .sql-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+
+  .sql-insights {
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+
+  .sql-insight {
+    font-size: 0.78rem; color: var(--text);
+    padding: 0.4rem 0.75rem;
+    background: rgba(123,97,255,0.08);
+    border-left: 2px solid var(--accent2);
+    border-radius: 0 4px 4px 0;
+    line-height: 1.5;
+  }
+
+  .sql-insight span { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.82rem; }
+
+  /* ── PARCOURS ────────────────────────────────────── */
+  #parcours {
+    padding: 6rem 3rem;
+    max-width: 1000px; margin: 0 auto;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative; margin-bottom: 2.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute; left: -2.5rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    top: 6px;
+    box-shadow: 0 0 12px rgba(0,212,255,0.5);
+  }
+
+  .timeline-dot.exp { background: var(--green); box-shadow: 0 0 12px rgba(0,229,160,0.5); }
+  .timeline-dot.edu { background: var(--accent2); box-shadow: 0 0 12px rgba(123,97,255,0.5); }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.05em; margin-bottom: 0.3rem;
+  }
+
+  .timeline-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--text); margin-bottom: 0.2rem;
+  }
+
+  .timeline-org {
+    font-size: 0.82rem; color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.82rem; color: var(--muted);
+    padding-left: 1rem; position: relative; line-height: 1.5;
+  }
+
+  .timeline-bullets li::before {
+    content: '›'; color: var(--accent);
+    position: absolute; left: 0;
+  }
+
+  /* ── SKILLS ──────────────────────────────────────── */
+  #competences {
+    padding: 6rem 3rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem;
+    transition: border-color 0.2s;
+  }
+
+  .skill-group:hover { border-color: rgba(0,212,255,0.2); }
+
+  .skill-group-title {
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.9rem;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .skill-tag {
+    padding: 0.3rem 0.7rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.78rem; color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover { border-color: rgba(0,212,255,0.3); color: var(--accent); }
+
+  /* ── CONTACT ─────────────────────────────────────── */
+  #contact {
+    padding: 6rem 3rem;
+    max-width: 700px; margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-links {
+    display: flex; gap: 1rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 2rem;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────── */
+  footer {
+    text-align: center; padding: 2rem;
+    font-size: 0.78rem; color: var(--muted);
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  /* ── ANIMATIONS ──────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .project-card.featured { grid-column: span 1; }
+    .sql-grid { grid-template-columns: 1fr; }
+    #projets, #sql, #parcours, #competences, #contact { padding: 4rem 1.5rem; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">JH<span>.</span>Malanda</div>
+  <ul class="nav-links">
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#sql">SQL</a></li>
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://github.com/malanda20" target="_blank" class="btn-secondary" style="padding:0.5rem 1.1rem;font-size:0.8rem;">GitHub ↗</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">Disponible pour un stage · Île-de-France</div>
+  <h1 class="hero-name">
+    Juste Hadassa
+    <span class="line2">Malanda Nyekele</span>
+  </h1>
+  <p class="hero-desc">Data Analyst & Data Scientist Junior · Mastère BI & Analytics · CY Tech Paris. Je transforme les données brutes en décisions business actionnables.</p>
+  <div class="hero-ctas">
+    <a href="#projets" class="btn-primary">Voir mes projets</a>
+    <a href="https://github.com/malanda20" target="_blank" class="btn-secondary">GitHub ↗</a>
+    <a href="https://www.linkedin.com/in/malanda5juste" target="_blank" class="btn-secondary">LinkedIn ↗</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">5+</span><span class="stat-label">Projets Data</span></div>
+    <div class="stat"><span class="stat-num">100K</span><span class="stat-label">Lignes analysées</span></div>
+    <div class="stat"><span class="stat-num">17</span><span class="stat-label">Requêtes SQL</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Dashboards PBI</span></div>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="section-header fade-in">
+    <div class="section-tag">Portfolio</div>
+    <h2 class="section-title">Projets <span>Data</span></h2>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- OLIST — FEATURED -->
+    <div class="project-card featured fade-in">
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(0,212,255,0.1)">🛒</div>
+        <div class="card-badges">
+          <span class="badge badge-new">NEW</span>
+          <span class="badge badge-sql">PostgreSQL</span>
+          <span class="badge badge-sql">SQL</span>
+          <span class="badge badge-pbi">Power BI</span>
+          <span class="badge badge-py">Python</span>
+        </div>
+      </div>
+      <div class="card-title">Olist E-Commerce Analytics — End-to-End</div>
+      <div class="card-desc">Analyse complète de 100 000 commandes réelles d'une marketplace brésilienne (2016-2018). Modélisation PostgreSQL, 17 requêtes SQL analytiques, segmentation RFM de 96 000 clients, 2 dashboards Power BI interactifs publiés.</div>
+      <div class="card-kpis">
+        <div class="kpi"><span class="kpi-val">15,8M$</span><span class="kpi-label">CA analysé</span></div>
+        <div class="kpi"><span class="kpi-val">91,9%</span><span class="kpi-label">Taux ponctualité</span></div>
+        <div class="kpi"><span class="kpi-val">NPS 43</span><span class="kpi-label">Score satisfaction</span></div>
+        <div class="kpi"><span class="kpi-val">9 tables</span><span class="kpi-label">Modèle relationnel</span></div>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/malanda20/Olist_E_commerce" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://app.powerbi.com/view?r=eyJrIjoiNmFlZmVhYjgtYTRjOS00MjhkLWE2YTEtMjgwM2M2NTc3NTcwIiwidCI6ImI4YzE5NTEyLTJhZWQtNDcxZC1hOGQxLTliMDZlN2RhNzg2YSIsImMiOjl9" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3C1.9 3 1 3.9 1 5v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H5v-2h7v2zm5-4H5v-2h12v2zm0-4H5V7h12v2z"/></svg>
+          Dashboard Power BI ↗
+        </a>
+        <a href="https://github.com/malanda20/Olist_E_commerce" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Rapport PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- NYC TAXIS -->
+    <div class="project-card fade-in">
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(255,184,48,0.1)">🚕</div>
+        <div class="card-badges">
+          <span class="badge badge-pbi">Power BI</span>
+          <span class="badge badge-py">Python</span>
+          <span class="badge badge-sql">DAX</span>
+        </div>
+      </div>
+      <div class="card-title">Analyse Performance Taxis NYC</div>
+      <div class="card-desc">Analyse de +100 000 trajets (NYC TLC 2018). Identification des créneaux rentables, corrélation distance/pourboire, zones à forte valeur. Dashboard 3 pages interactif.</div>
+      <div class="card-kpis">
+        <div class="kpi"><span class="kpi-val">+100K</span><span class="kpi-label">Trajets</span></div>
+        <div class="kpi"><span class="kpi-val">3 pages</span><span class="kpi-label">Dashboard</span></div>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/malanda20" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- RECOMMANDATION -->
+    <div class="project-card fade-in">
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(255,80,120,0.1)">🤖</div>
+        <div class="card-badges">
+          <span class="badge badge-ml">ML</span>
+          <span class="badge badge-py">Python</span>
+          <span class="badge badge-py">Streamlit</span>
+        </div>
+      </div>
+      <div class="card-title">Système de Recommandation Hybride</div>
+      <div class="card-desc">Système combinant 5 algorithmes (SVD, CF, règles d'association) avec pondération adaptative. Gestion cold start via facteurs contextuels. Interface Streamlit temps réel.</div>
+      <div class="card-kpis">
+        <div class="kpi"><span class="kpi-val">5 algos</span><span class="kpi-label">Hybrides</span></div>
+        <div class="kpi"><span class="kpi-val">Live</span><span class="kpi-label">Streamlit</span></div>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/malanda20" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- PIPELINE BIG DATA -->
+    <div class="project-card fade-in">
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(123,97,255,0.1)">⚡</div>
+        <div class="card-badges">
+          <span class="badge badge-ml">Kafka</span>
+          <span class="badge badge-py">NLP</span>
+          <span class="badge badge-pbi">Tableau</span>
+        </div>
+      </div>
+      <div class="card-title">Pipeline Big Data & Sentiment Tweets</div>
+      <div class="card-desc">Pipeline temps réel complet : collecte Kafka → MongoDB → NLP → Tableau. Architecture MLOps end-to-end avec suivi MLflow.</div>
+      <div class="card-kpis">
+        <div class="kpi"><span class="kpi-val">RT</span><span class="kpi-label">Temps réel</span></div>
+        <div class="kpi"><span class="kpi-val">MLOps</span><span class="kpi-label">End-to-end</span></div>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/malanda20" target="_blank" class="card-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SQL -->
+<section id="sql" style="background: linear-gradient(180deg, transparent 0%, rgba(123,97,255,0.03) 50%, transparent 100%);">
+  <div style="max-width:1200px;margin:0 auto;padding:6rem 3rem;">
+    <div class="section-header fade-in">
+      <div class="section-tag">Analyse</div>
+      <h2 class="section-title">Requêtes <span>SQL</span></h2>
+    </div>
+    <div class="sql-grid">
+
+      <div class="sql-card fade-in">
+        <div class="sql-card-header">
+          <div class="sql-dots"><div class="sql-dot dot-r"></div><div class="sql-dot dot-y"></div><div class="sql-dot dot-g"></div></div>
+          <span class="sql-filename">04_analysis_sales.sql</span>
+        </div>
+        <div class="sql-body">
+          <div class="sql-title">Dashboard 1 — Sales Performance</div>
+          <div class="sql-desc">6 requêtes couvrant les KPIs globaux, l'évolution mensuelle, les top catégories, la géographie et les modes de paiement.</div>
+          <div class="sql-insights">
+            <div class="sql-insight">CA Total <span>15,8M$</span> · Panier moyen <span>160$</span></div>
+            <div class="sql-insight">Croissance <span>x9</span> en 2017 · Pic Black Friday <span>+53,6%</span></div>
+            <div class="sql-insight">Mensualités 7-12x → panier <span>x3,5</span> vs comptant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sql-card fade-in">
+        <div class="sql-card-header">
+          <div class="sql-dots"><div class="sql-dot dot-r"></div><div class="sql-dot dot-y"></div><div class="sql-dot dot-g"></div></div>
+          <span class="sql-filename">05_analysis_operations.sql</span>
+        </div>
+        <div class="sql-body">
+          <div class="sql-title">Dashboard 2 — Operations & Logistique</div>
+          <div class="sql-desc">5 requêtes sur les délais réels vs estimés, la ponctualité par état brésilien et la performance vendeur.</div>
+          <div class="sql-insights">
+            <div class="sql-insight">Délai réel <span>12,5j</span> vs estimé <span>24,4j</span> → sur-promesse intentionnelle</div>
+            <div class="sql-insight">Ponctualité globale <span>91,9%</span></div>
+            <div class="sql-insight">Anomalie Alagoas : <span>23,9%</span> de retard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sql-card fade-in">
+        <div class="sql-card-header">
+          <div class="sql-dots"><div class="sql-dot dot-r"></div><div class="sql-dot dot-y"></div><div class="sql-dot dot-g"></div></div>
+          <span class="sql-filename">06_analysis_customer_experience.sql</span>
+        </div>
+        <div class="sql-body">
+          <div class="sql-title">Dashboard 3 — Customer Experience & RFM</div>
+          <div class="sql-desc">6 requêtes : NPS, satisfaction par catégorie, corrélation délai/note, segmentation RFM 7 segments.</div>
+          <div class="sql-insights">
+            <div class="sql-insight">NPS <span>43</span> · Score moyen <span>4,09/5</span></div>
+            <div class="sql-insight">Effet falaise : retard &gt;3j → note <span>2,11/5</span> (-44%)</div>
+            <div class="sql-insight"><span>2,1M$</span> en danger · segment "Presque Perdus"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sql-card fade-in" style="border-color:rgba(0,229,160,0.2)">
+        <div class="sql-card-header" style="background:rgba(0,229,160,0.05)">
+          <div class="sql-dots"><div class="sql-dot dot-r"></div><div class="sql-dot dot-y"></div><div class="sql-dot dot-g"></div></div>
+          <span class="sql-filename" style="color:var(--green)">segmentation_rfm.sql</span>
+        </div>
+        <div class="sql-body">
+          <div class="sql-title" style="color:var(--green)">Segmentation RFM — 7 Segments</div>
+          <div class="sql-desc">Scoring Recency/Frequency/Monetary sur 96 000 clients avec recommandations marketing par segment.</div>
+          <div class="sql-insights" style="--accent2:var(--green)">
+            <div class="sql-insight" style="border-color:var(--green);background:rgba(0,229,160,0.06)">Champions : <span>10,5%</span> · panier <span>272$</span> · récence 76j</div>
+            <div class="sql-insight" style="border-color:var(--green);background:rgba(0,229,160,0.06)">Fidèles inactifs : <span>5,18M$</span> CA · récence 314j → réactivation</div>
+            <div class="sql-insight" style="border-color:var(--green);background:rgba(0,229,160,0.06)">Presque perdus : <span>2,1M$</span> en danger · récence 418j</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="https://github.com/malanda20/Olist_E_commerce" target="_blank" class="btn-secondary">Voir tous les fichiers SQL sur GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- PARCOURS -->
+<section id="parcours">
+  <div class="section-header fade-in">
+    <div class="section-tag">À propos</div>
+    <h2 class="section-title">Mon <span>Parcours</span></h2>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot edu"></div>
+      <div class="timeline-date">2025 — En cours</div>
+      <div class="timeline-title">Mastère Spécialisé Business Intelligence & Analytics</div>
+      <div class="timeline-org">CY Tech — Cergy-Pontoise, France</div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot exp"></div>
+      <div class="timeline-date">2025 · 9 mois</div>
+      <div class="timeline-title">Conseiller Data — CEGID</div>
+      <div class="timeline-org">Rabat, Maroc</div>
+      <ul class="timeline-bullets">
+        <li>Analyse des besoins métiers et vente consultative de solutions ERP</li>
+        <li>Production de reportings mensuels : churn, rétention, satisfaction client</li>
+        <li>Exploitation CRM pour améliorer la prise de décision commerciale</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot exp"></div>
+      <div class="timeline-date">2024 · 6 mois</div>
+      <div class="timeline-title">Stagiaire Data Science — Ministère de l'Économie et des Finances</div>
+      <div class="timeline-org">Rabat, Maroc</div>
+      <ul class="timeline-bullets">
+        <li>Analyse spatio-temporelle via données satellitaires (Google Earth Engine)</li>
+        <li>Réduction de dimensionnalité (ACP, t-SNE, UMAP) · Clusters régionaux</li>
+        <li>Modélisation prédictive SARIMAX pour appuyer la décision publique</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot edu"></div>
+      <div class="timeline-date">2021 — 2024</div>
+      <div class="timeline-title">Diplôme d'Ingénieur — Business Intelligence & Data Science</div>
+      <div class="timeline-org">ISMAGI, Maroc · Mention Très Bien</div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot exp"></div>
+      <div class="timeline-date">2021 · 3 mois</div>
+      <div class="timeline-title">Stagiaire Dev API — TADBIRCOM SARL</div>
+      <div class="timeline-org">Meknès, Maroc</div>
+      <ul class="timeline-bullets">
+        <li>API REST de gestion RH (Java, Spring Boot, JEE)</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot edu"></div>
+      <div class="timeline-date">2019 — 2021</div>
+      <div class="timeline-title">Licence — Électronique & Télécommunications</div>
+      <div class="timeline-org">Université Marien Ngouabi, Congo</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPETENCES -->
+<section id="competences">
+  <div class="section-header fade-in">
+    <div class="section-tag">Stack</div>
+    <h2 class="section-title">Compétences <span>Techniques</span></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Langages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">SQL</span>
+        <span class="skill-tag">R</span><span class="skill-tag">Java</span>
+        <span class="skill-tag">HTML/CSS</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">BI & Dataviz</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Power BI</span><span class="skill-tag">DAX</span>
+        <span class="skill-tag">Tableau</span><span class="skill-tag">SAS Visual Analytics</span>
+        <span class="skill-tag">Jedox</span><span class="skill-tag">SAP Datasphere</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Bases de Données</div>
+      <div class="skill-tags">
+        <span class="skill-tag">PostgreSQL</span><span class="skill-tag">SQL Server</span>
+        <span class="skill-tag">MongoDB</span><span class="skill-tag">HBase</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Machine Learning</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Scikit-learn</span><span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">NLP</span><span class="skill-tag">MLflow</span>
+        <span class="skill-tag">Deep Learning</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Data Engineering</div>
+      <div class="skill-tags">
+        <span class="skill-tag">ETL/ELT</span><span class="skill-tag">Kafka</span>
+        <span class="skill-tag">Spark</span><span class="skill-tag">Hadoop</span>
+        <span class="skill-tag">Alteryx</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Outils & Méthodes</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git / GitHub</span><span class="skill-tag">JIRA</span>
+        <span class="skill-tag">Confluence</span><span class="skill-tag">Agile / Scrum</span>
+        <span class="skill-tag">RFM</span><span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-in">
+    <div class="section-tag">Contact</div>
+    <h2 class="section-title">Travaillons <span>ensemble</span></h2>
+  </div>
+  <div class="contact-card fade-in">
+    <p style="color:var(--muted);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;">
+      Disponible pour un stage de 4 à 6 mois en Île-de-France.<br>
+      Ouverte à tout projet data à fort impact métier.
+    </p>
+    <a href="mailto:nyekele.malanda@gmail.com" class="btn-primary" style="display:inline-block">
+      nyekele.malanda@gmail.com
+    </a>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/malanda5juste" target="_blank" class="btn-secondary">LinkedIn ↗</a>
+      <a href="https://github.com/malanda20" target="_blank" class="btn-secondary">GitHub ↗</a>
+      <a href="https://app.powerbi.com/view?r=eyJrIjoiNmFlZmVhYjgtYTRjOS00MjhkLWE2YTEtMjgwM2M2NTc3NTcwIiwidCI6ImI4YzE5NTEyLTJhZWQtNDcxZC1hOGQxLTliMDZlN2RhNzg2YSIsImMiOjl9" target="_blank" class="btn-secondary">Dashboards Power BI ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Juste Hadassa MALANDA NYEKELE · Data Analyst · Portfolio 2026</p>
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
