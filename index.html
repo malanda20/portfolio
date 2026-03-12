@@ -115,7 +115,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.4rem}
 .proj-card{background:var(--surf);border:1px solid var(--border);border-radius:16px;
   padding:1.7rem;transition:all .28s;position:relative;overflow:hidden}
-.proj-card::before{content:"";position:absolute;inset:0;background:var(--card-glow);opacity:0;transition:opacity .28s;border-radius:16px}
+.proj-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--card-glow);
+  opacity:0;
+  transition:opacity .28s;
+  border-radius:16px;
+  pointer-events:none;
+}
+.card-links{
+  position:relative;
+  z-index:5;
+}
 .proj-card:hover{border-color:rgba(0,200,240,.22);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .proj-card:hover::before{opacity:1}
 .proj-card.big{grid-column:span 2}
